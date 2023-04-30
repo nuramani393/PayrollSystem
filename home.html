@@ -1,12 +1,131 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payroll System</title>
+	<title>Payroll Management System</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			margin: 0;
+			padding: 0;
+		}
+		
+		header {
+			background-color: #0071c5;
+			color: #fff;
+			padding: 20px;
+			text-align: center;
+			font-size: 36px;
+			font-weight: bold;
+		}
+		
+		main {
+			margin: 20px;
+			padding: 20px;
+			background-color: #f0f0f0;
+			border-radius: 10px;
+		}
+		
+		table {
+			border-collapse: collapse;
+			width: 100%;
+			margin-bottom: 20px;
+		}
+		
+		th, td {
+			padding: 10px;
+			text-align: left;
+			border: 1px solid #ccc;
+		}
+		
+		th {
+			background-color: #0071c5;
+			color: #fff;
+		}
+		
+		form {
+			margin-bottom: 20px;
+		}
+		
+		label {
+			display: inline-block;
+			width: 150px;
+			font-weight: bold;
+		}
+		
+		input[type=text], input[type=number] {
+			padding: 5px;
+			width: 200px;
+			border-radius: 5px;
+			border: 1px solid #ccc;
+			margin-bottom: 10px;
+		}
+		
+		input[type=submit] {
+			padding: 10px;
+			background-color: #0071c5;
+			color: #fff;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+		
+		input[type=submit]:hover {
+			background-color: #003e7e;
+		}
+	</style>
 </head>
 <body>
-    Hi
+	<header>Payroll Management System</header>
+	<main>
+		<h2>Enter Employee Information</h2>
+		<form>
+			<label for="name">Name:</label>
+			<input type="text" id="name" name="name" required><br>
+			<label for="id">ID Number:</label>
+			<input type="number" id="id" name="id" required><br>
+			<label for="rate">Hourly Rate:</label>
+			<input type="number" id="rate" name="rate" step="0.01" required><br>
+			<label for="hours">Hours Worked:</label>
+			<input type="number" id="hours" name="hours" required><br>
+			<input type="submit" value="Calculate Pay">
+		</form>
+		
+		<h2>Employee Paycheck</h2>
+		<table>
+			<tr>
+				<th>Name</th>
+				<th>ID Number</th>
+				<th>Gross Pay</th>
+				<th>Taxes</th>
+				<th>Net Pay</th>
+			</tr>
+			<tr>
+				<td id="name"></td>
+				<td id="id"></td>
+				<td id="gross"></td>
+				<td id="taxes"></td>
+				<td id="net"></td>
+			</tr>
+		</table>
+	</main>
+	<script>
+		document.querySelector('form').addEventListener('submit', function(e) {
+			e.preventDefault();
+			var name = document.getElementById('name').value;
+			var id = document.getElementById('id').value;
+			var rate = document.getElementById('rate').value;
+			var hours = document.getElementById('hours').value;
+			
+			var grossPay = rate * hours;
+			var taxes = grossPay * 0.2;
+			var netPay = grossPay - taxes;
+			
+			document.getElementById('name').textContent = name;
+			document.getElementById('id').textContent = id;
+			document.getElementById('gross').textContent = '$' + grossPay.toFixed(2);
+			document.getElementById('taxes').textContent = '$' + taxes.toFixed(2);
+			document.getElementById('net').textContent = '$' + netPay.toFixed(2);
+		});
+	</script>
 </body>
 </html>
