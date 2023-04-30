@@ -1,4 +1,6 @@
 <!--just a sample-->
+<!--Athirah 2011156-->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -181,10 +183,15 @@
                 taxes: taxes,
                 netPay: netPay
             };
-            employeeData.push(employee);
-    
-            // add employee data to table
-            addEmployeeDataToTable(name, id, grossPay, taxes, netPay);
+            
+            // check if the array has more than 22 items
+            if (employeeData.length < 22) {
+                employeeData.push(employee);
+                // add employee data to table
+                addEmployeeDataToTable(name, id, grossPay, taxes, netPay);
+            } else {
+                alert("Sorry, the table can only have a maximum of 22 entries.");
+            }
     
             // reset form
             document.getElementById("name").value = "";
@@ -197,6 +204,7 @@
         var form = document.querySelector("form");
         form.addEventListener("submit", handleSubmit);
     </script>
+    
     
 </body>
 </html>
