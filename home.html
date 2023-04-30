@@ -104,95 +104,99 @@
 			</tbody>
 		</table>
 	</main>
-	<script>
-		var employeeData = new Array(22);
-		for (var i = 0; i < employeeData.length; i++) {
-		  employeeData[i] = {
-		    name: "",
-		    id: "",
-		    rate: 0,
-		    hours: 0,
-		    grossPay: 0,
-		    taxes: 0,
-		    netPay: 0
-		  };
-		}
-
-		var form = document.querySelector('form');
-		form.addEventListener('submit', function(event) {
-			event.preventDefault();
-
-			var name = document.getElementById('name').value;
-			var id = document.getElementById('id').value;
-			var rate = document.getElementById('rate').value;
-			var hours = document.getElementById('hours').value;
-
-			var grossPay = rate * hours;
-			var taxes = grossPay * 0.2;
-			var netPay = grossPay - taxes;
-
-			var index = // TODO: determine the index of the current employee in the employeeData array
-
-			employeeData[index].name = name;
-			employeeData[index].id = id;
-			employeeData[index].rate = rate;
-			employeeData[index].hours = hours;
-			employeeData[index].grossPay = grossPay;
-			employeeData[index].taxes = taxes;
-			employeeData[index].netPay = netPay;
-
-            			// create table row and cells for employee data
-			var table = document.getElementById('employeeTable');
-			var row = table.insertRow(-1);
-			var nameCell = row.insertCell(0);
-			var idCell = row.insertCell(1);
-			var grossPayCell = row.insertCell(2);
-			var taxesCell = row.insertCell(3);
-			var netPayCell = row.insertCell(4);
-
-			// add employee data to table
-			nameCell.textContent = name;
-			idCell.textContent = id;
-			grossPayCell.textContent = '$' + grossPay.toFixed(2);
-			taxesCell.textContent = '$' + taxes.toFixed(2);
-			netPayCell.textContent = '$' + netPay.toFixed(2);
-		});
-
-		function calculatePay() {
-			for (var i = 0; i < employeeData.length; i++) {
-				var employee = employeeData[i];
-				if (employee.name != "") {
-					var grossPay = employee.rate * employee.hours;
-					var taxes = grossPay * 0.2;
-					var netPay = grossPay - taxes;
-
-					employee.grossPay = grossPay;
-					employee.taxes = taxes;
-					employee.netPay = netPay;
-				}
-			}
-
-			var table = document.getElementById('employeeTable');
-			table.innerHTML = '';
-			for (var i = 0; i < employeeData.length; i++) {
-				var employee = employeeData[i];
-				if (employee.name != "") {
-					var row = table.insertRow(-1);
-					var nameCell = row.insertCell(0);
-					var idCell = row.insertCell(1);
-					var grossPayCell = row.insertCell(2);
-					var taxesCell = row.insertCell(3);
-					var netPayCell = row.insertCell(4);
-
-					nameCell.textContent = employee.name;
-					idCell.textContent = employee.id;
-					grossPayCell.textContent = '$' + employee.grossPay.toFixed(2);
-					taxesCell.textContent = '$' + employee.taxes.toFixed(2);
-					netPayCell.textContent = '$' + employee.netPay.toFixed(2);
-				}
-			}
-		}
-	</script>
+    <script>
+        // create an array to store employee data objects
+        var employeeData = new Array();
+    
+        // function to calculate gross pay
+        function calculateGrossPay(rate, hours) {
+            var overtimeHours = Math.max(0, hours - 40);
+            var overtimeRate = rate * 1.5;
+            var regularPay = rate * Math.min(40, hours);
+            var overtimePay = overtimeRate * overtimeHours;
+            return regularPay + overtimePay;
+        }
+    
+        // function to calculate taxes
+        function calculateTaxes(grossPay) {
+            var taxRate = 0.2;
+            return grossPay * taxRate;
+        }
+    
+        // function to calculate net pay
+        function calculateNetPay(grossPay, taxes) {
+            return grossPay - taxes;
+        }
+    
+        // function to add employee data to table
+        function addEmployeeDataToTable(name, id, grossPay, taxes, netPay) {
+            var tableBody = document.getElementById("employeeTable");
+            var newRow = document.createElement("tr");
+    
+            var nameCell = document.createElement("td");
+            nameCell.innerHTML = name;
+            newRow.appendChild(nameCell);
+    
+            var idCell = document.createElement("td");
+            idCell.innerHTML = id;
+            newRow.appendChild(idCell);
+    
+            var grossPayCell = document.createElement("td");
+            grossPayCell.innerHTML = "$" + grossPay.toFixed(2);
+            newRow.appendChild(grossPayCell);
+    
+            var taxesCell = document.createElement("td");
+            taxesCell.innerHTML = "$" + taxes.toFixed(2);
+            newRow.appendChild(taxesCell);
+    
+            var netPayCell = document.createElement("td");
+            netPayCell.innerHTML = "$" + netPay.toFixed(2);
+            newRow.appendChild(netPayCell);
+    
+            tableBody.appendChild(newRow);
+        }
+    
+        // function to handle form submission
+        function handleSubmit(event) {
+            event.preventDefault();
+    
+            // get input values from form
+            var name = document.getElementById("name").value;
+            var id = document.getElementById("id").value;
+            var rate = parseFloat(document.getElementById("rate").value);
+            var hours = parseFloat(document.getElementById("hours").value);
+    
+            // calculate pay
+            var grossPay = calculateGrossPay(rate, hours);
+            var taxes = calculateTaxes(grossPay);
+            var netPay = calculateNetPay(grossPay, taxes);
+    
+            // add employee data to array
+            var employee = {
+                name: name,
+                id: id,
+                rate: rate,
+                hours: hours,
+                grossPay: grossPay,
+                taxes: taxes,
+                netPay: netPay
+            };
+            employeeData.push(employee);
+    
+            // add employee data to table
+            addEmployeeDataToTable(name, id, grossPay, taxes, netPay);
+    
+            // reset form
+            document.getElementById("name").value = "";
+            document.getElementById("id").value = "";
+            document.getElementById("rate").value = "";
+            document.getElementById("hours").value = "";
+        }
+    
+        // add form submit event listener
+        var form = document.querySelector("form");
+        form.addEventListener("submit", handleSubmit);
+    </script>
+    
 </body>
 </html>
-
