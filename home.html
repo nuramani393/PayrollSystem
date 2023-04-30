@@ -4,128 +4,194 @@
 	<title>Payroll Management System</title>
 	<style>
 		body {
-			font-family: Arial, sans-serif;
-			margin: 0;
-			padding: 0;
-		}
-		
-		header {
-			background-color: #0071c5;
-			color: #fff;
-			padding: 20px;
-			text-align: center;
-			font-size: 36px;
-			font-weight: bold;
-		}
-		
-		main {
-			margin: 20px;
-			padding: 20px;
-			background-color: #f0f0f0;
-			border-radius: 10px;
-		}
-		
-		table {
-			border-collapse: collapse;
-			width: 100%;
-			margin-bottom: 20px;
-		}
-		
-		th, td {
-			padding: 10px;
-			text-align: left;
-			border: 1px solid #ccc;
-		}
-		
-		th {
-			background-color: #0071c5;
-			color: #fff;
-		}
-		
-		form {
-			margin-bottom: 20px;
-		}
-		
-		label {
-			display: inline-block;
-			width: 150px;
-			font-weight: bold;
-		}
-		
-		input[type=text], input[type=number] {
-			padding: 5px;
-			width: 200px;
-			border-radius: 5px;
-			border: 1px solid #ccc;
-			margin-bottom: 10px;
-		}
-		
-		input[type=submit] {
-			padding: 10px;
-			background-color: #0071c5;
-			color: #fff;
-			border: none;
-			border-radius: 5px;
-			cursor: pointer;
-		}
-		
-		input[type=submit]:hover {
-			background-color: #003e7e;
-		}
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f5f5f5;
+        }
+
+        header {
+        background-color: #1b1b1b;
+        color: #fff;
+        padding: 20px;
+        }
+
+        h1, h2 {
+        margin: 0;
+        }
+
+        form {
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        border-radius: 5px;
+        }
+
+        form input[type="text"],
+        form input[type="number"],
+        form input[type="submit"] {
+         display: block;
+         margin: 10px 0;
+        padding: 10px;
+         border: none;
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgba(0,0,0,0.1);
+        font-size: 16px;
+        width: 100%;
+        }
+
+        form input[type="submit"] {
+        background-color: #1b1b1b;
+         color: #fff;
+         cursor: pointer;
+        }
+
+        table {
+         margin-top: 20px;
+        border-collapse: collapse;
+        width: 100%;
+        }
+
+        table th,
+        table td {
+        padding: 10px;
+        text-align: left;
+         border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+         background-color: #1b1b1b;
+         color: #fff;
+        }
+
+        table td:last-child {
+        font-weight: bold;
+        }
+
+        table tr:hover {
+        background-color: #f5f5f5;
+        }
+
 	</style>
 </head>
 <body>
-	<header>Payroll Management System</header>
+	<header>
+		<h1>Payroll Management System</h1>
+	</header>
 	<main>
-		<h2>Enter Employee Information</h2>
 		<form>
+			<h2>Enter Employee Information</h2>
 			<label for="name">Name:</label>
-			<input type="text" id="name" name="name" required><br>
+			<input type="text" id="name" name="name" required>
 			<label for="id">ID Number:</label>
-			<input type="number" id="id" name="id" required><br>
+			<input type="text" id="id" name="id" required>
 			<label for="rate">Hourly Rate:</label>
-			<input type="number" id="rate" name="rate" step="0.01" required><br>
+			<input type="number" id="rate" name="rate" required>
 			<label for="hours">Hours Worked:</label>
-			<input type="number" id="hours" name="hours" required><br>
+			<input type="number" id="hours" name="hours" required>
 			<input type="submit" value="Calculate Pay">
 		</form>
-		
-		<h2>Employee Paycheck</h2>
 		<table>
-			<tr>
-				<th>Name</th>
-				<th>ID Number</th>
-				<th>Gross Pay</th>
-				<th>Taxes</th>
-				<th>Net Pay</th>
-			</tr>
-			<tr>
-				<td id="name"></td>
-				<td id="id"></td>
-				<td id="gross"></td>
-				<td id="taxes"></td>
-				<td id="net"></td>
-			</tr>
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>ID Number</th>
+					<th>Gross Pay</th>
+					<th>Taxes</th>
+					<th>Net Pay</th>
+				</tr>
+			</thead>
+			<tbody id="employeeTable">
+			</tbody>
 		</table>
 	</main>
 	<script>
-		document.querySelector('form').addEventListener('submit', function(e) {
-			e.preventDefault();
+		var employeeData = new Array(22);
+		for (var i = 0; i < employeeData.length; i++) {
+		  employeeData[i] = {
+		    name: "",
+		    id: "",
+		    rate: 0,
+		    hours: 0,
+		    grossPay: 0,
+		    taxes: 0,
+		    netPay: 0
+		  };
+		}
+
+		var form = document.querySelector('form');
+		form.addEventListener('submit', function(event) {
+			event.preventDefault();
+
 			var name = document.getElementById('name').value;
 			var id = document.getElementById('id').value;
 			var rate = document.getElementById('rate').value;
 			var hours = document.getElementById('hours').value;
-			
+
 			var grossPay = rate * hours;
 			var taxes = grossPay * 0.2;
 			var netPay = grossPay - taxes;
-			
-			document.getElementById('name').textContent = name;
-			document.getElementById('id').textContent = id;
-			document.getElementById('gross').textContent = '$' + grossPay.toFixed(2);
-			document.getElementById('taxes').textContent = '$' + taxes.toFixed(2);
-			document.getElementById('net').textContent = '$' + netPay.toFixed(2);
+
+			var index = // TODO: determine the index of the current employee in the employeeData array
+
+			employeeData[index].name = name;
+			employeeData[index].id = id;
+			employeeData[index].rate = rate;
+			employeeData[index].hours = hours;
+			employeeData[index].grossPay = grossPay;
+			employeeData[index].taxes = taxes;
+			employeeData[index].netPay = netPay;
+
+            			// create table row and cells for employee data
+			var table = document.getElementById('employeeTable');
+			var row = table.insertRow(-1);
+			var nameCell = row.insertCell(0);
+			var idCell = row.insertCell(1);
+			var grossPayCell = row.insertCell(2);
+			var taxesCell = row.insertCell(3);
+			var netPayCell = row.insertCell(4);
+
+			// add employee data to table
+			nameCell.textContent = name;
+			idCell.textContent = id;
+			grossPayCell.textContent = '$' + grossPay.toFixed(2);
+			taxesCell.textContent = '$' + taxes.toFixed(2);
+			netPayCell.textContent = '$' + netPay.toFixed(2);
 		});
+
+		function calculatePay() {
+			for (var i = 0; i < employeeData.length; i++) {
+				var employee = employeeData[i];
+				if (employee.name != "") {
+					var grossPay = employee.rate * employee.hours;
+					var taxes = grossPay * 0.2;
+					var netPay = grossPay - taxes;
+
+					employee.grossPay = grossPay;
+					employee.taxes = taxes;
+					employee.netPay = netPay;
+				}
+			}
+
+			var table = document.getElementById('employeeTable');
+			table.innerHTML = '';
+			for (var i = 0; i < employeeData.length; i++) {
+				var employee = employeeData[i];
+				if (employee.name != "") {
+					var row = table.insertRow(-1);
+					var nameCell = row.insertCell(0);
+					var idCell = row.insertCell(1);
+					var grossPayCell = row.insertCell(2);
+					var taxesCell = row.insertCell(3);
+					var netPayCell = row.insertCell(4);
+
+					nameCell.textContent = employee.name;
+					idCell.textContent = employee.id;
+					grossPayCell.textContent = '$' + employee.grossPay.toFixed(2);
+					taxesCell.textContent = '$' + employee.taxes.toFixed(2);
+					netPayCell.textContent = '$' + employee.netPay.toFixed(2);
+				}
+			}
+		}
 	</script>
 </body>
 </html>
+
