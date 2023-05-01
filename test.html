@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Payroll Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<header>
+		<h1>Payroll Management System</h1>
+	</header>
+	<main>
+		<form>
+			<h2>Enter Employee Information</h2>
+			<label for="name">Employee Name:</label>
+			<input type="text" id="name" name="name" required>
+			<label for="id">ID Number:</label>
+            <input type="text" id="id" name="id" required>
+            <label for="start-date">Date:</label>
+            <input type="date" id="start-date" required>
+            <label for="start-time">Start Time:</label>
+            <input type="time" id="start-time" required>
+            <label for="end-time">End Time:</label>
+            <input type="time" id="end-time" required>
+            <br><br>
+			<input type="submit" value="Calculate Pay">
+		</form>
+		<table>
+			<thead>
+				<tr>
+                    <th>Name</th>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Hours Worked</th>
+                    <th>Payable Amount</th>
+                    <th>EPF Contribution</th>
+				</tr>
+			</thead>
+			<tbody id="employeeTable">
+			</tbody>
+		</table>
+        <script defer src="test.dart"></script>
+	</main>
