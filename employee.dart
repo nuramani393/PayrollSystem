@@ -1,3 +1,4 @@
+/*
 import 'dart:io';
 
 // NIK NURUL_1911480
@@ -16,4 +17,29 @@ void main() {
     }
   }
 
+}
+*/
+import 'dart:io';
+
+void main() {
+  // Create an empty List to store the employee's working hours and datetime
+  List<Map<String, dynamic>> employeeData = List.filled(22, {});
+
+  // Ask the employee to input their working hours and datetime for each slot
+  for (int i = 0; i < 22; i++) {
+    print('Enter working hours for slot #${i + 1}:');
+    String? inputHours = stdin.readLineSync();
+
+    print('Enter date and time for slot #${i + 1} (yyyy-mm-dd HH:mm:ss):');
+    String? inputDatetime = stdin.readLineSync();
+
+    if (inputHours != null && inputHours.isNotEmpty) {
+      int hours = int.parse(inputHours);
+      employeeData[i]['hours'] = hours;
+    }
+
+    if (inputDatetime != null && inputDatetime.isNotEmpty) {
+      employeeData[i]['datetime'] = inputDatetime;
+    }
+  }
 }
