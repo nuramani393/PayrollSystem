@@ -53,7 +53,7 @@ void main() {
   List<Map<String, dynamic>> employeeData = [];
 
   // Ask the user to input working hours and datetime for each slot
-  for (int i = 1; i <= 3; i++) {
+  for (int i = 1; i <= 22; i++) {
     print('Enter working hours for slot #$i:');
     int hours = int.parse(stdin.readLineSync()!);
 
@@ -74,8 +74,8 @@ void main() {
     // Exclude weekends from the calculation
     if (_isWeekday(employeeData[i]['datetime'])) {
       // Calculate the start time if the employee arrived late to work
-      int startHour = 9;
-      if (employeeData[i]['datetime'].hour > 9) {
+      int startHour = 8;
+      if (employeeData[i]['datetime'].hour > 8) {
         startHour = employeeData[i]['datetime'].hour;
       }
 
